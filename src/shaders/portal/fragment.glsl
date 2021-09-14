@@ -87,15 +87,15 @@ float cnoise(vec3 P)
 void main()
 {
     // vec2 displacedUv=vUv+cnoise(vec3(vUv*5.,uTime*.1));
-    vec2 displacedUv=vUv+cnoise(vec3(vUv*3.,uTime*.2));
-    float strength=cnoise(vec3(vUv*7.,uTime*.2));
+    // vec2 displacedUv=vUv+cnoise(vec3(vUv*3.,uTime*.2));
+    // float strength=cnoise(vec3(vUv*7.,uTime*.2));
     
-    float outerGlow=distance(vUv,vec2(.5))*5.-1.8;
-    strength+=outerGlow;
+    // float outerGlow=distance(vUv,vec2(.5))*5.-1.8;
+    // strength+=outerGlow;
     
-    strength+=step(.2,strength);
+    // strength+=step(.2,strength);
     
-    strength=clamp(strength,0.,1.);
+    // strength=clamp(strength,0.,1.);
     
     // vec3 color=mix(uColorStart,uColorEnd,strength);
     
@@ -111,25 +111,26 @@ void main()
     
     // circus
     
-    float s=20.;
-    vec2 dUv=displacedUv*s;
-    // vec2 dUv=vUv;
+    float s=10.;
+    // vec2 dUv=displacedUv*s;
+    vec2 dUv=vUv*s;
     
     vec3 col;
     vec3 lineColor=vec3(.5,.2,.4);
     
-    float dis=.15;
-    float width=.00001;
-    float blur=.03;
+    float dis=.6;
+    float width=.5;
+    float blur=.2;
     
     vec2 o=dUv+vec2(-.5*s,-.5*s);
     float angle=atan(o.y,o.x);
     float l=length(o);
     
     // float offset=abs(o.x)+abs(o.y)+(angle/(2.*PI))*dis; // square
-    float offset=(log(l)/log(e*7.)+(angle/(2.*PI))*dis);
+    // float offset=(log(l)/log(e*7.)+(angle/(2.*PI))*dis);
+    float offset=l+(angle/(2.*PI))*dis;
     float circles=mod(offset-uTime*.2,dis);
-    col=(step(circles-blur,width)-step(circles+blur,width))*mix(uColorStart,uColorEnd,(l*.2-1.));
+    col=(step(circles-blur,width)-step(circles+blur,width))*uColorEnd;
     // col=(smoothstep(circles-blur,circles,width)-smoothstep(circles,circles+blur,width))*lineColor;
     
     // col=mix(col,uColorStart,strength);

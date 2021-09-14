@@ -116,14 +116,14 @@ void main()
     // vUv.y=sin(angle)*(r);
     
     // ==== THE MATRIX ====
-    float twist=100.;
+    // float twist=100.;
     
-    mat2 rotation=mat2(
-        vec2(cos(twist*r),sin(twist*r)),
-        vec2(-sin(twist*r),cos(twist*r))
-    );
+    // mat2 rotation=mat2(
+        //     vec2(cos(twist*r),sin(twist*r)),
+        //     vec2(-sin(twist*r),cos(twist*r))
+    // );
     
-    vUv=rotation*(vUv);
+    // vUv=rotation*(vUv);
     
     // vDebug=r;
     
