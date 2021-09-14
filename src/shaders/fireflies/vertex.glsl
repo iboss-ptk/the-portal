@@ -84,10 +84,10 @@ float cnoise(vec3 P)
 void main()
 {
     vec4 modelPosition=modelMatrix*vec4(position,1.);
-    modelPosition.y+=sin(uTime+modelPosition.x*100.)*aScale*.2+cnoise(vec3(modelPosition.xz,uTime*.1))*.5;
+    modelPosition.y+=cnoise(vec3(modelPosition.xz,uTime*.1))*.7;
     
-    modelPosition.x+=sin(uTime+modelPosition.x*100.)*aScale*.25+cnoise(vec3(modelPosition.yz,uTime*.1))*.5;
-    modelPosition.z-=cos(uTime+modelPosition.z*100.)*aScale*.2+cnoise(vec3(modelPosition.xy,uTime*.1))*.5;
+    modelPosition.x+=cnoise(vec3(modelPosition.yz,uTime*.1))*.7;
+    modelPosition.z+=cnoise(vec3(modelPosition.xy,uTime*.1))*.7;
     
     vPos=modelPosition;
     
