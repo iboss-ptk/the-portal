@@ -142,7 +142,7 @@ void main()
     vec3 lineColor=vec3(.5,.2,.4);
     
     // col=vec3(.5608,.7686,.0784);
-    col=vec3(.1255,.5804,.4275);
+    col=vec3(uColorStart);
     col+=.8*swirl(vec3(1.),0.,.2,.1,.05,1.);
     col+=.1*swirl(vec3(1.),4.,.4,.1,.1,1.);
     col+=.1*swirl(vec3(1.),9.,.15,.1,.05,1.);

@@ -21,7 +21,7 @@ const gui = new dat.GUI({
 // Debug
 const debugObject = {}
 // Clear color
-debugObject.clearColor = '#201919'
+debugObject.clearColor = '#170320'
 gui.addColor(debugObject, 'clearColor')
     .onChange(() => {
         renderer.setClearColor(debugObject.clearColor)
@@ -56,21 +56,31 @@ bakedTexture.flipY = false
 bakedTexture.encoding = THREE.sRGBEncoding
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 
-debugObject.portalColorStart = '#3d8ba4'
-debugObject.portalColorEnd = '#2d0a6b'
-debugObject.firefliesColor = '#3d8ba4'
+// 32, 148, 109
+// .1255,.5804,.4275
 
+debugObject.portalColor = '#20946d';
 gui
-    .addColor(debugObject, 'portalColorStart')
+    .addColor(debugObject, 'portalColor')
     .onChange(() => {
         portalLightMaterial.uniforms.uColorStart.value.set(debugObject.portalColorStart)
     })
 
-gui
-    .addColor(debugObject, 'portalColorEnd')
-    .onChange(() => {
-        portalLightMaterial.uniforms.uColorEnd.value.set(debugObject.portalColorEnd)
-    })
+debugObject.portalColorStart = '#3d8ba4'
+debugObject.portalColorEnd = '#2d0a6b'
+debugObject.firefliesColor = '#3d8ba4'
+
+// gui
+//     .addColor(debugObject, 'portalColorStart')
+//     .onChange(() => {
+//         portalLightMaterial.uniforms.uColorStart.value.set(debugObject.portalColorStart)
+//     })
+
+// gui
+//     .addColor(debugObject, 'portalColorEnd')
+//     .onChange(() => {
+//         portalLightMaterial.uniforms.uColorEnd.value.set(debugObject.portalColorEnd)
+//     })
 
 gui
     .addColor(debugObject, 'firefliesColor')
