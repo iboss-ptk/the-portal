@@ -59,11 +59,11 @@ const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
 // 32, 148, 109
 // .1255,.5804,.4275
 
-debugObject.portalColor = '#20946d';
+debugObject.portalColor = '#3d8ba4';
 gui
     .addColor(debugObject, 'portalColor')
     .onChange(() => {
-        portalLightMaterial.uniforms.uColorStart.value.set(debugObject.portalColorStart)
+        portalLightMaterial.uniforms.uColorStart.value.set(debugObject.portalColor)
     })
 
 debugObject.portalColorStart = '#3d8ba4'
