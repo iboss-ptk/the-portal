@@ -83,15 +83,40 @@ float cnoise(vec3 P)
     
     return 2.2*n_xyz;
 }
+// .2, .1, .05, 8.
+vec3 swirl(vec3 color,float phase,float dis,float width,float blurScale,float timeScale){
+    float blur=blurScale*cnoise(vec3(vUv*8.,uTime*timeScale+phase));
+    float s=10.;
+    
+    // vec2 ddUv=vUv+cnoise(vec3(vUv*1.,uTime*.1));
+    vec2 dUv=vUv*s;
+    
+    // dUv+=cnoise(vec3(vUv*10.,uTime*.5));
+    
+    vec2 o=dUv+vec2(-.5*s,-.5*s);
+    float angle=atan(o.y,o.x)+phase;
+    float l=length(o);
+    
+    // float offset=abs(o.x)+abs(o.y)+(angle/(2.*PI))*dis; // square
+    float offset=(log(l)/log(e*7.)+(angle/(2.*PI))*dis);
+    // float offset=l-(angle/(2.*PI))*dis;
+    float circles=mod(offset-uTime*.2,dis);
+    return clamp((step(circles-blur,width)-step(circles+blur,width)),0.,1.)*color;
+}
 
 void main()
 {
-    // vec2 displacedUv=vUv+cnoise(vec3(vUv*5.,uTime*.1));
+    // vec2 dvUv=vUv+cnoise(vec3(vUv*0.,uTime*.1));
     // vec2 displacedUv=vUv+cnoise(vec3(vUv*3.,uTime*.2));
-    // float strength=cnoise(vec3(vUv*7.,uTime*.2));
     
-    // float outerGlow=distance(vUv,vec2(.5))*5.-1.8;
-    // strength+=outerGlow;
+    vec2 displacedUv=vUv+cnoise(vec3(vUv*5.,uTime*.1));
+    
+    // Perlin noise
+    float strength=cnoise(vec3(displacedUv*5.,uTime*.2));
+    
+    float outerGlow=distance(vUv,vec2(.5))*4.-1.8;
+    
+    strength=outerGlow;
     
     // strength+=step(.2,strength);
     
@@ -111,26 +136,21 @@ void main()
     
     // circus
     
-    float s=10.;
     // vec2 dUv=displacedUv*s;
-    vec2 dUv=vUv*s;
     
-    vec3 col;
+    vec3 col=vec3(0.);
     vec3 lineColor=vec3(.5,.2,.4);
     
-    float dis=.6;
-    float width=.5;
-    float blur=.2;
+    // col=vec3(.5608,.7686,.0784);
+    col=vec3(.1255,.5804,.4275);
+    col+=.8*swirl(vec3(1.),0.,.2,.1,.05,1.);
+    col+=.1*swirl(vec3(1.),4.,.4,.1,.1,1.);
+    col+=.1*swirl(vec3(1.),9.,.15,.1,.05,1.);
+    col-=.1*swirl(vec3(1.),7.,.3,.1,.1,2.);
     
-    vec2 o=dUv+vec2(-.5*s,-.5*s);
-    float angle=atan(o.y,o.x);
-    float l=length(o);
-    
-    // float offset=abs(o.x)+abs(o.y)+(angle/(2.*PI))*dis; // square
-    // float offset=(log(l)/log(e*7.)+(angle/(2.*PI))*dis);
-    float offset=l+(angle/(2.*PI))*dis;
-    float circles=mod(offset-uTime*.2,dis);
-    col=(step(circles-blur,width)-step(circles+blur,width))*uColorEnd;
+    col=mix(col,vec3(0.),strength*.5);
+    // +.9*swirl(uColorStart,2.)+.9*swirl(lineColor,6.)+.8*swirl(vec3(1.),.5);
+    // col=circles*uColorEnd;
     // col=(smoothstep(circles-blur,circles,width)-smoothstep(circles,circles+blur,width))*lineColor;
     
     // col=mix(col,uColorStart,strength);
